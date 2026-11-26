@@ -38,14 +38,47 @@ In simulator mode each row has **Sim offline/online** and **External +1** contro
 ```sh
 npm test       # packet and simulator tests
 npm run build  # type-check, build, and create an unpacked app for the host
-npm run dist   # package for the host (.dmg on macOS, NSIS .exe on Windows)
+npm run dist   # package for the host, in release/
 ```
 
-Electron Builder supports `--mac --arm64`, `--mac --x64`, and `--win --x64`; platform-specific packaging, signing and notarization require the appropriate host tools and credentials. The build is unsigned by default.
+## Releases
+
+The [Releases](https://github.com/jannickvang/rdm-tool/releases) page contains
+published builds. A tag push triggers tests and creates macOS DMGs for Apple
+silicon and Intel, a Windows x64 NSIS installer, and Linux x64 AppImage and
+Debian packages. A GitHub release is published only after all builds succeed.
+
+To publish a release, update the version in `package.json` and
+`package-lock.json` (for example with `npm version 0.2.0 --no-git-tag-version`),
+commit and push the changes, then push a matching tag:
+
+```sh
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+The tag must be exactly `v` followed by the package version; versions with a
+hyphen are marked as prereleases. The workflow can also be started manually in
+GitHub Actions to test packaging without publishing a release. Artifacts are
+available from that workflow run.
+
+Builds are unsigned and macOS builds are not notarized. macOS Gatekeeper and
+Windows SmartScreen may warn or block installation; no signing credentials are
+configured. Linux builds require a compatible desktop and system libraries;
+the AppImage may need FUSE. Verify downloads and test on the target system.
+Platform-specific packaging, signing and notarization require the appropriate
+host tools and credentials.
+
+## Contributing and license
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+The project is licensed under the [MIT License](LICENSE); bundled dependencies
+have their own licenses, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+and included in the packaged application.
 
 ## Prototype limitations
 
-- Physical Luminex and ELC gateways and Windows builds have not been verified. Do not rely on this prototype for a live show without lab testing.
+- Physical gateway interoperability and packaged builds need further testing on each platform. Do not rely on this prototype for a live show without lab testing.
 - The UI addresses only the root RDM device (sub-device 0). The packet encoder supports a sub-device field, but sub-device enumeration and control are not implemented.
 - ArtRdm (0x8300) carries root-device requests and replies. ArtRdmSub (0x8400) is a separate compressed sub-device protocol and is not implemented.
 - RDM ACK and NACK are handled; ACK_TIMER, queued messages and ACK_OVERFLOW are not yet supported and produce an explicit error. Some devices require these responses.

@@ -2,6 +2,12 @@
   "name": "rdm-tool",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "author": "jannickvang",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jannickvang/rdm-tool.git"
+  },
   "description": "Art-Net RDM fixture discovery and patching",
   "main": "dist-electron/main.js",
   "engines": {
@@ -37,10 +43,26 @@
   "build": {
     "appId": "com.jvgdesigns.rdmtool",
     "productName": "RDM Tool",
+    "directories": {
+      "output": "release"
+    },
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
       "package.json"
+    ],
+    "extraResources": [
+      { "from": "LICENSE", "to": "licenses/RDM-Tool-LICENSE.txt" },
+      { "from": "THIRD_PARTY_NOTICES.md", "to": "licenses/THIRD_PARTY_NOTICES.md" },
+      { "from": "node_modules/react/LICENSE", "to": "licenses/react-LICENSE.txt" },
+      { "from": "node_modules/react-dom/LICENSE", "to": "licenses/react-dom-LICENSE.txt" },
+      { "from": "node_modules/scheduler/LICENSE", "to": "licenses/scheduler-LICENSE.txt" },
+      { "from": "node_modules/lucide-react/LICENSE", "to": "licenses/lucide-react-LICENSE.txt" },
+      { "from": "node_modules/loose-envify/LICENSE", "to": "licenses/loose-envify-LICENSE.txt" },
+      { "from": "node_modules/js-tokens/LICENSE", "to": "licenses/js-tokens-LICENSE.txt" },
+      { "from": "node_modules/vite/LICENSE.md", "to": "licenses/vite-LICENSE.md" },
+      { "from": "node_modules/electron/dist/LICENSE", "to": "licenses/electron-LICENSE.txt" },
+      { "from": "node_modules/electron/dist/LICENSES.chromium.html", "to": "licenses/chromium-LICENSES.html" }
     ],
     "mac": {
       "target": [
@@ -49,7 +71,7 @@
       "category": "public.app-category.utilities"
     },
     "dmg": {
-      "artifactName": "${productName}-${version}-${arch}.${ext}"
+      "artifactName": "RDM-Tool-${version}-mac-${arch}.${ext}"
     },
     "win": {
       "target": [
@@ -58,7 +80,13 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "RDM-Tool-${version}-windows-${arch}.${ext}"
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "AudioVideo",
+      "artifactName": "RDM-Tool-${version}-linux-${arch}.${ext}"
     }
   }
 }
