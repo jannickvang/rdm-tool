@@ -45,8 +45,8 @@ npm run dist   # package for the host, in release/
 
 The [Releases](https://github.com/jannickvang/rdm-tool/releases) page contains
 published builds. A tag push triggers tests and creates macOS DMGs for Apple
-silicon and Intel, a Windows x64 NSIS installer, and Linux x64 AppImage and
-Debian packages. A GitHub release is published only after all builds succeed.
+silicon and Intel, a Windows x64 NSIS installer, and a Linux x64 AppImage. A
+GitHub release is published only after all builds succeed.
 
 To publish a release, update the version in `package.json` and
 `package-lock.json` (for example with `npm version 0.2.0 --no-git-tag-version`),

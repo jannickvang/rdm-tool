@@ -14,6 +14,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "postinstall": "install-electron",
     "dev": "vite",
     "build": "tsc --noEmit && vite build && electron-builder --dir",
     "dist": "tsc --noEmit && vite build && electron-builder",
@@ -84,7 +85,7 @@
       "artifactName": "RDM-Tool-${version}-windows-${arch}.${ext}"
     },
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": ["AppImage"],
       "category": "AudioVideo",
       "artifactName": "RDM-Tool-${version}-linux-${arch}.${ext}"
     }

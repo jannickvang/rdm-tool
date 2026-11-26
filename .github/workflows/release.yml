@@ -34,10 +34,9 @@ jobs:
               release/*-windows-x64.exe
           - name: Linux
             os: ubuntu-24.04
-            args: --linux AppImage deb --x64
+            args: --linux AppImage --x64
             files: |
-              release/*-linux-x64.AppImage
-              release/*-linux-x64.deb
+              release/*-linux-x86_64.AppImage
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -68,6 +67,15 @@ jobs:
               exit 1
             fi
           done <<< "$REQUIRED_FILES"
+      - name: Check packaged licenses
+        shell: bash
+        run: |
+          for name in RDM-Tool-LICENSE.txt THIRD_PARTY_NOTICES.md react-LICENSE.txt react-dom-LICENSE.txt scheduler-LICENSE.txt lucide-react-LICENSE.txt loose-envify-LICENSE.txt js-tokens-LICENSE.txt vite-LICENSE.md electron-LICENSE.txt chromium-LICENSES.html; do
+            if ! find release -type f -path "*/licenses/$name" -print -quit | grep -q .; then
+              echo "Missing packaged license: $name" >&2
+              exit 1
+            fi
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: release-${{ matrix.name }}
